@@ -6,6 +6,9 @@ import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { DataViewModule } from "primeng/dataview";
 import { DialogModule } from "primeng/dialog";
+import { CartService } from "app/shared/features/cart/cart.service";
+import { CommonModule } from "@angular/common";
+import { ImageFallbackDirective } from "app/shared/directives/image-fallback.directive";
 
 const emptyProduct: Product = {
   id: 0,
@@ -30,15 +33,18 @@ const emptyProduct: Product = {
   styleUrls: ["./product-list.component.scss"],
   standalone: true,
   imports: [
+    CommonModule,
     DataViewModule,
     CardModule,
     ButtonModule,
     DialogModule,
     ProductFormComponent,
+    ImageFallbackDirective,
   ],
 })
 export class ProductListComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
 
   public readonly products = this.productsService.products;
 
@@ -77,6 +83,14 @@ export class ProductListComponent implements OnInit {
 
   public onCancel() {
     this.closeDialog();
+  }
+
+  public addToCart(product: Product) {
+    this.cartService.addToCart(product);
+  }
+
+  public removeFromCart(productId: number) {
+    this.cartService.removeFromCart(productId);
   }
 
   private closeDialog() {

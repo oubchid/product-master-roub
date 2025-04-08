@@ -1,0 +1,15 @@
+.contact-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+:host ::ng-deep {
+  .p-inputtext.ng-invalid.ng-dirty {
+    border-color: var(--red-500);
+  }
+  
+  .p-error {
+    color: var(--red-500);
+  }
+} 

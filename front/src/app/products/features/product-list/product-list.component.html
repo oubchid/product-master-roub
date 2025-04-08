@@ -1,4 +1,6 @@
-<h1 class="text-center">Liste des produits</h1>
+<div class="header-container">
+  <h1 class="text-center">Liste des produits</h1>
+</div>
 
 <p-button
   label="Créer produit"
@@ -10,10 +12,51 @@
   <ng-template pTemplate="list" let-products>
     @for (product of products; track product) {
     <p-card class="block mb-2">
-      <span class="font-medium text-secondary text-sm">{{
-        product.category
-      }}</span>
-      <div class="text-lg font-medium text-900 mt-2">{{ product.name }}</div>
+      <div class="product-header">
+        <span class="font-medium text-secondary text-sm">{{
+          product.category
+        }}</span>
+        <span
+          class="inventory-status"
+          [ngClass]="product.inventoryStatus.toLowerCase()"
+        >
+          {{ product.inventoryStatus }}
+        </span>
+      </div>
+
+      <div class="product-content">
+        <div class="product-image">
+          <img
+            [src]="product.image"
+            [alt]="product.name"
+            *ngIf="product.image"
+            appImageFallback
+            [appImageFallback]="'assets/icons/icon-152x152.png'"
+          />
+          <div class="no-image" *ngIf="!product.image">
+            <i class="pi pi-image"></i>
+          </div>
+        </div>
+
+        <div class="product-details">
+          <div class="text-lg font-medium text-900">{{ product.name }}</div>
+          <div class="product-code">Code: {{ product.code }}</div>
+          <div class="product-description">{{ product.description }}</div>
+          <div class="product-price">
+            {{ product.price | currency : "EUR" }}
+          </div>
+          <div class="product-rating">
+            <i
+              class="pi pi-star-fill"
+              *ngFor="let i of [1, 2, 3, 4, 5]"
+              [ngClass]="{
+                filled: i <= product.rating,
+                empty: i > product.rating
+              }"
+            ></i>
+          </div>
+        </div>
+      </div>
 
       <ng-template pTemplate="footer">
         <div class="flex gap-3 mt-1">
@@ -26,6 +69,13 @@
             label="Supprimer"
             severity="danger"
             (onClick)="onDelete(product)"
+          />
+          <p-button
+            label="Ajouter au panier"
+            icon="pi pi-shopping-cart"
+            severity="success"
+            (onClick)="addToCart(product)"
+            [disabled]="product.quantity <= 0"
           />
         </div>
       </ng-template>

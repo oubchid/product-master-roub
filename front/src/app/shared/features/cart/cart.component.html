@@ -1,0 +1,66 @@
+<h2 class="text-center">Mon Panier</h2>
+
+<div class="cart-container">
+  @if (items().length === 0) {
+  <p class="text-center">Votre panier est vide</p>
+  } @else {
+  <div class="cart-items">
+    @for (item of items(); track item.product.id) {
+    <p-card class="cart-item">
+      <div class="flex justify-content-between align-items-center">
+        <div class="product-info">
+          <h3>{{ item.product.name }}</h3>
+          <p class="text-secondary">{{ item.product.category }}</p>
+          <p class="price">{{ item.product.price | currency : "EUR" }}</p>
+        </div>
+
+        <div class="quantity-controls">
+          <p-inputNumber
+            [min]="1"
+            [max]="item.product.quantity"
+            [(ngModel)]="item.quantity"
+            (onBlur)="updateQuantity(item, item.quantity)"
+            [showButtons]="true"
+            [useGrouping]="false"
+          ></p-inputNumber>
+        </div>
+
+        <div class="item-total">
+          <p class="font-bold">
+            {{ item.product.price * item.quantity | currency : "EUR" }}
+          </p>
+        </div>
+
+        <div class="remove-button">
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            (onClick)="removeFromCart(item.product.id)"
+            [rounded]="true"
+            [text]="true"
+          ></p-button>
+        </div>
+      </div>
+    </p-card>
+    }
+  </div>
+
+  <div class="cart-summary">
+    <p-card>
+      <div class="flex justify-content-between align-items-center">
+        <h3>Total</h3>
+        <h3>{{ getTotal() | currency : "EUR" }}</h3>
+      </div>
+
+      <div class="flex justify-content-between mt-3">
+        <p-button
+          label="Vider le panier"
+          severity="danger"
+          (onClick)="clearCart()"
+        ></p-button>
+        <p-button label="Commander" severity="success"></p-button>
+      </div>
+    </p-card>
+  </div>
+  }
+</div>

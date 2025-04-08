@@ -1,0 +1,61 @@
+<p-toast></p-toast>
+
+<div class="contact-container">
+  <p-card header="Contactez-nous">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="field mb-3">
+        <label for="email" class="block mb-2">Email *</label>
+        <input
+          id="email"
+          type="email"
+          pInputText
+          formControlName="email"
+          class="w-full"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && email?.invalid }"
+        />
+        <small class="p-error" *ngIf="submitted && email?.errors?.['required']">
+          L'email est obligatoire
+        </small>
+        <small class="p-error" *ngIf="submitted && email?.errors?.['email']">
+          Veuillez entrer un email valide
+        </small>
+      </div>
+
+      <div class="field mb-3">
+        <label for="message" class="block mb-2">Message *</label>
+        <textarea
+          id="message"
+          pInputTextarea
+          formControlName="message"
+          rows="5"
+          class="w-full"
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && message?.invalid }"
+        ></textarea>
+        <small
+          class="p-error"
+          *ngIf="submitted && message?.errors?.['required']"
+        >
+          Le message est obligatoire
+        </small>
+        <small
+          class="p-error"
+          *ngIf="submitted && message?.errors?.['maxlength']"
+        >
+          Le message ne doit pas dépasser 300 caractères
+        </small>
+        <small class="text-gray-500">
+          {{ message?.value?.length || 0 }}/300 caractères
+        </small>
+      </div>
+
+      <div class="flex justify-content-end">
+        <p-button
+          type="submit"
+          label="Envoyer"
+          icon="pi pi-send"
+          [loading]="loading"
+        ></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>

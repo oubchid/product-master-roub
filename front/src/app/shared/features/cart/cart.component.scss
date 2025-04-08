@@ -1,0 +1,41 @@
+.cart-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.cart-items {
+  margin-bottom: 2rem;
+}
+
+.cart-item {
+  margin-bottom: 1rem;
+  
+  .product-info {
+    flex: 1;
+    
+    h3 {
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .price {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+  }
+  
+  .quantity-controls {
+    margin: 0 1rem;
+  }
+  
+  .item-total {
+    min-width: 100px;
+    text-align: right;
+    margin: 0 1rem;
+  }
+}
+
+.cart-summary {
+  max-width: 500px;
+  margin: 0 auto;
+}
